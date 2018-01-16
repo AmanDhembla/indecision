@@ -4,6 +4,7 @@ class IndecisionApp extends React.Component{
         this.makeDecision=this.makeDecision.bind(this);
         this.removeAll=this.removeAll.bind(this);
         this.addOption=this.addOption.bind(this);
+        this.remove=this.remove.bind(this);
         this.state={
             options:[]
         }
@@ -32,6 +33,15 @@ class IndecisionApp extends React.Component{
             }
         });
     }
+    remove(option){
+        this.setState((currentState)=>{
+            return{
+                options: currentState.options.filter((opt)=>{
+                    return opt !== option;
+                })
+            }
+        })
+    }
     render(){
         const title="Indecision";
         const subtitle="put your life in the hands of the computer";
@@ -39,7 +49,7 @@ class IndecisionApp extends React.Component{
             <div>
                 <Header title={title} subtitle={subtitle}/>
                 <Action makeDecision={this.makeDecision} hasOptions={this.state.options.length>0}/>
-                <Options removeAll={this.removeAll} options={this.state.options}/>
+                <Options removeAll={this.removeAll} options={this.state.options} remove={this.remove}/>
                 <AddOption addOption={this.addOption}/>
             </div>
         );
@@ -97,7 +107,14 @@ const Action=(props)=>{
 const Option=(props)=>{
     return (
         <div>
-            {props.option}
+            <p>{props.option}</p>
+            <button onClick={(e)=>{
+                e.preventDefault();
+                props.remove(props.option);
+            }}
+            >
+                Remove
+            </button>
         </div>
     );
 }
@@ -118,7 +135,7 @@ const Options=(props)=>{
             <button onClick={props.removeAll}>Remove All</button>
             {
                 props.options.map((option)=>{
-                    return <Option key={option} option={option} />;     
+                    return <Option key={option} option={option} remove={props.remove} />;     
                 })
             } 
         </div>

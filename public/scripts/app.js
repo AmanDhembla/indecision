@@ -19,6 +19,7 @@ var IndecisionApp = function (_React$Component) {
         _this.makeDecision = _this.makeDecision.bind(_this);
         _this.removeAll = _this.removeAll.bind(_this);
         _this.addOption = _this.addOption.bind(_this);
+        _this.remove = _this.remove.bind(_this);
         _this.state = {
             options: []
         };
@@ -55,6 +56,17 @@ var IndecisionApp = function (_React$Component) {
             });
         }
     }, {
+        key: "remove",
+        value: function remove(option) {
+            this.setState(function (currentState) {
+                return {
+                    options: currentState.options.filter(function (opt) {
+                        return opt !== option;
+                    })
+                };
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var title = "Indecision";
@@ -64,7 +76,7 @@ var IndecisionApp = function (_React$Component) {
                 null,
                 React.createElement(Header, { title: title, subtitle: subtitle }),
                 React.createElement(Action, { makeDecision: this.makeDecision, hasOptions: this.state.options.length > 0 }),
-                React.createElement(Options, { removeAll: this.removeAll, options: this.state.options }),
+                React.createElement(Options, { removeAll: this.removeAll, options: this.state.options, remove: this.remove }),
                 React.createElement(AddOption, { addOption: this.addOption })
             );
         }
@@ -135,7 +147,20 @@ var Option = function Option(props) {
     return React.createElement(
         "div",
         null,
-        props.option
+        React.createElement(
+            "p",
+            null,
+            props.option
+        ),
+        React.createElement(
+            "button",
+            { onClick: function onClick(e) {
+                    e.preventDefault();
+                    props.remove(props.option);
+                }
+            },
+            "Remove"
+        )
     );
 };
 
@@ -159,7 +184,7 @@ var Options = function Options(props) {
             "Remove All"
         ),
         props.options.map(function (option) {
-            return React.createElement(Option, { key: option, option: option });
+            return React.createElement(Option, { key: option, option: option, remove: props.remove });
         })
     );
 };
