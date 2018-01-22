@@ -9,6 +9,20 @@ class IndecisionApp extends React.Component{
             options:[]
         }
     }
+    componentDidMount(){
+        const opt=JSON.parse(localStorage.getItem("options"));
+        if(opt){
+            this.setState(()=>{
+                return {options:opt}
+            })
+        }
+    }
+    componentDidUpdate(prevProp,prevState){
+        if(prevState.options.length!==this.state.options.length){
+            const json=JSON.stringify(this.state.options);
+            localStorage.setItem("options",json);           
+        }
+    }
     makeDecision(){
         const num=Math.floor(Math.random()*this.state.options.length);
         console.log(this.state.options[num]);
