@@ -1,8 +1,8 @@
 import React from 'react';
 const Action=(props)=>{
     return (
-        <div>
-            <button 
+        <div >
+            <button className="big-button"
                 onClick={props.makeDecision}
                 disabled={!props.hasOptions}
             >
