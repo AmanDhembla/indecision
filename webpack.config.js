@@ -11,5 +11,9 @@ module.exports={
             test: /\.js$/,
             exclude: /node_modules/
         }]
-    } 
+    },
+    devtool:'cheap-module/eval-source-map', // check other options from the documentation of webpack
+    devServer:{
+        contentBase: path.join(__dirname,'public')
+    }
 }

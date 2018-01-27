@@ -3,16 +3,11 @@ import Options from './Options';
 import Action from './Action';
 import Header from './Header';
 import React from 'react';
+import OptionModal from './OptionModal';
 export default class IndecisionApp extends React.Component{
-    constructor(props){
-        super(props);
-        this.makeDecision=this.makeDecision.bind(this);
-        this.removeAll=this.removeAll.bind(this);
-        this.addOption=this.addOption.bind(this);
-        this.remove=this.remove.bind(this);
-        this.state={
-            options:[]
-        }
+    state={
+        options:[],
+        selectedOption: undefined
     }
     componentDidMount(){
         const opt=JSON.parse(localStorage.getItem("options"));
@@ -28,18 +23,23 @@ export default class IndecisionApp extends React.Component{
             localStorage.setItem("options",json);           
         }
     }
-    makeDecision(){
+    makeDecision=()=>{
         const num=Math.floor(Math.random()*this.state.options.length);
         console.log(this.state.options[num]);
+        this.setState((prevState)=>{
+            return {
+                selectedOption: prevState.options[num]
+            }
+        });
     }
-    removeAll(){
+    removeAll=()=>{
         this.setState(()=>{
             return({
                 options: []
             })
         })
     }
-    addOption(option){
+    addOption=(option)=>{
         if(!option){
             return "You cannot enter empty values";
         }
@@ -52,12 +52,19 @@ export default class IndecisionApp extends React.Component{
             }
         });
     }
-    remove(option){
+    remove=(option)=>{
         this.setState((currentState)=>{
             return{
                 options: currentState.options.filter((opt)=>{
                     return opt !== option;
                 })
+            }
+        })
+    }
+    removeModal=()=>{
+        this.setState(()=>{
+            return{
+                selectedOption: undefined
             }
         })
     }
@@ -70,6 +77,7 @@ export default class IndecisionApp extends React.Component{
                 <Action makeDecision={this.makeDecision} hasOptions={this.state.options.length>0}/>
                 <Options removeAll={this.removeAll} options={this.state.options} remove={this.remove}/>
                 <AddOption addOption={this.addOption}/>
+                <OptionModal selectedOption={this.state.selectedOption} removeModal={this.removeModal}/>
             </div>
         );
     }
