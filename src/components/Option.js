@@ -2,8 +2,8 @@ import React from 'react';
 const Option=(props)=>{
     return (
         <div>
-            <p>{props.option}</p>
-            <button onClick={(e)=>{
+            {props.option}
+            <button className="button button--link" onClick={(e)=>{
                 e.preventDefault();
                 props.remove(props.option);
             }}
