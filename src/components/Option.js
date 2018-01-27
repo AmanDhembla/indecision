@@ -1,8 +1,8 @@
 import React from 'react';
 const Option=(props)=>{
     return (
-        <div>
-            {props.option}
+        <div class="option">
+            <p className="option__text">{props.count +". "+ props.option}</p>
             <button className="button button--link" onClick={(e)=>{
                 e.preventDefault();
                 props.remove(props.option);
