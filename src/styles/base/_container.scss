@@ -2,3 +2,9 @@
     margin:0 auto;
     width: 60rem;
 }
+
+@media (max-width:60rem){
+    .container{
+        width: 100%;
+    }
+}
